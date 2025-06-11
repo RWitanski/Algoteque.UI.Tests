@@ -111,7 +111,7 @@ Automated tests are executed in the CI/CD pipeline using the `algoteque-tests.ym
 5. Run tests (`dotnet test`)
 6. Publish results
 
-You can find the workflow file at `.github/workflows/algoteque-tests.yml`.
+You can find the workflow file at `workflows/algoteque-tests.yml`.
 ---
 
 Troubleshooting

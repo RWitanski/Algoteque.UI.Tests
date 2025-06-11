@@ -33,4 +33,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include=".github\workflows\algoteque-tests.yml" />
+  </ItemGroup>
+
 </Project>
