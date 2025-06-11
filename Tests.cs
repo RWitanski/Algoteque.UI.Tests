@@ -1,9 +1,6 @@
-using System.Threading.Tasks;
 using Algoteque.UI.Tests.Pages;
 using Algoteque.UI.Tests.Pages.Checkout;
 using Algoteque.UI.Tests.Configuration;
-using Microsoft.Playwright;
-using Xunit;
 using Algoteque.UI.Tests.Configuration.Models;
 
 namespace Algoteque.UI.Tests
@@ -12,21 +9,21 @@ namespace Algoteque.UI.Tests
     {
         private readonly PlaywrightFixture _fixture;
         private readonly ConfigurationDto _config;
+        private readonly string _browserType;
 
         public Tests(PlaywrightFixture fixture)
         {
             _fixture = fixture;
             _config = ReadConfiguration.Instance.Config;
+            _browserType = Environment.GetEnvironmentVariable("BROWSER") ?? "chromium";
         }
 
         [Theory]
-        [InlineData("chromium", "standard_user", true, "")]
-        [InlineData("firefox", "standard_user", true, "")]
-        [InlineData("chromium", "locked_out_user", false, "Epic sadface: Sorry, this user has been locked out.")]
-        [InlineData("firefox", "locked_out_user", false, "Epic sadface: Sorry, this user has been locked out.")]
-        public async Task LoginTest(string browserType, string username, bool shouldSucceed, string expectedError)
+        [InlineData("standard_user", true, "")]
+        [InlineData("locked_out_user", false, "Epic sadface: Sorry, this user has been locked out.")]
+        public async Task LoginTest(string username, bool shouldSucceed, string expectedError)
         {
-            await using var browser = await _fixture.LaunchBrowserAsync(browserType, _config.Headless);
+            await using var browser = await _fixture.LaunchBrowserAsync(_browserType, _config.Headless);
             await using var context = await browser.NewContextAsync();
             var page = await context.NewPageAsync();
             await page.GotoAsync(_config.WebsiteUrl);
@@ -45,12 +42,10 @@ namespace Algoteque.UI.Tests
             }
         }
 
-        [Theory]
-        [InlineData("chromium")]
-        [InlineData("firefox")]
-        public async Task AddProductToCartFinishCheckoutAndBackHomeTest(string browserType)
+        [Fact]
+        public async Task AddProductToCartFinishCheckoutAndBackHomeTest()
         {
-            await using var browser = await _fixture.LaunchBrowserAsync(browserType, _config.Headless);
+            await using var browser = await _fixture.LaunchBrowserAsync(_browserType, _config.Headless);
             await using var context = await browser.NewContextAsync();
             var page = await context.NewPageAsync();
             await page.GotoAsync(_config.WebsiteUrl);
