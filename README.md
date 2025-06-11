@@ -30,7 +30,7 @@ Test settings are managed via appSettings.json in the root directory.
 The ReadConfiguration singleton loads these settings at runtime.
 Example appSettings.json:
 {
-  "ConfigurationDto": {
+  "TestsConfiguration": {
     "WebsiteUrl": "https://example.com",
     "User": "standard_user",
     "Pass": "your_password",
