@@ -32,11 +32,11 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Install Playwright browsers
-        run: playwright install
-
       - name: Build
         run: dotnet build --no-restore --configuration Release
+
+      - name: Install Playwright browsers
+        run: playwright install
 
       - name: Run Parallel tests (${{ matrix.browser }})
         run: dotnet test --no-build --configuration Release --filter "TestCategory!=Skip"
